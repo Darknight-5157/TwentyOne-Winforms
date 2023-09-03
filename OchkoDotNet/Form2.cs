@@ -18,6 +18,8 @@ namespace OchkoDotNet
 
         public int playerCardsCounter = 0;
 
+        public bool Upgraded = false;
+
         OchkoGame ochkoGame = new OchkoGame();
 
         Bitmap[] background = new Bitmap[3];
@@ -48,43 +50,43 @@ namespace OchkoDotNet
             MessageBoxOptions.RightAlign);
             }
             else
-            { 
-            playerCardsCounter++;
-            dropBtn.Show();
-
-            ochkoGame.TakeCard();
-            switch (playerCardsCounter)             // Вывод изображения карт
             {
-                case <= 1:
-                    card1.ImageLocation = ochkoGame.playerCards[0].image;
-                    break;
-                case <= 2:
-                    card2.ImageLocation = ochkoGame.playerCards[1].image;
-                    break;
-                case <= 3:
-                    card3.ImageLocation = ochkoGame.playerCards[2].image;
-                    break;
-                case <= 4:
-                    card4.ImageLocation = ochkoGame.playerCards[3].image;
-                    break;
-                case <= 5:
-                    card5.ImageLocation = ochkoGame.playerCards[4].image;
-                    break;
-                case <= 6:
-                    card6.ImageLocation = ochkoGame.playerCards[5].image;
-                    break;
-                case <= 7:
-                    card7.ImageLocation = ochkoGame.playerCards[6].image;
-                    break;
-                case <= 8:
-                    card8.ImageLocation = ochkoGame.playerCards[7].image;
-                    break;
-            }
+                playerCardsCounter++;
+                dropBtn.Show();
 
-            scoreBox.Text = "Очков         - " + Convert.ToString(ochkoGame.playerScore); // Вывод количества очков у игрока
+                ochkoGame.TakeCard();
+                switch (playerCardsCounter)             // Вывод изображения карт
+                {
+                    case <= 1:
+                        card1.ImageLocation = ochkoGame.playerCards[0].image;
+                        break;
+                    case <= 2:
+                        card2.ImageLocation = ochkoGame.playerCards[1].image;
+                        break;
+                    case <= 3:
+                        card3.ImageLocation = ochkoGame.playerCards[2].image;
+                        break;
+                    case <= 4:
+                        card4.ImageLocation = ochkoGame.playerCards[3].image;
+                        break;
+                    case <= 5:
+                        card5.ImageLocation = ochkoGame.playerCards[4].image;
+                        break;
+                    case <= 6:
+                        card6.ImageLocation = ochkoGame.playerCards[5].image;
+                        break;
+                    case <= 7:
+                        card7.ImageLocation = ochkoGame.playerCards[6].image;
+                        break;
+                    case <= 8:
+                        card8.ImageLocation = ochkoGame.playerCards[7].image;
+                        break;
+                }
 
-            if (playerCardsCounter == 8 || ochkoGame.playerScore >= 21)    // Скрыть кнопку взятия карт, если все 8 карт уже выведены, или у игрока перебор/очко
-                takeBtn.Hide();
+                scoreBox.Text = "Очков         - " + Convert.ToString(ochkoGame.playerScore); // Вывод количества очков у игрока
+
+                if (playerCardsCounter == 8 || ochkoGame.playerScore >= 21)    // Скрыть кнопку взятия карт, если все 8 карт уже выведены, или у игрока перебор/очко
+                    takeBtn.Hide();
             }
         }
 
@@ -124,7 +126,7 @@ namespace OchkoDotNet
          MessageBoxIcon.Information,
          MessageBoxDefaultButton.Button1,
          MessageBoxOptions.RightAlign);
-            } 
+            }
             else if (ochkoGame.bet == 0)
             {
                 MessageBox.Show(
@@ -159,7 +161,10 @@ namespace OchkoDotNet
             botBalanceBox.Text = "Баланс бота - " + Convert.ToString(ochkoGame.botMoney);
 
             if (ochkoGame.botMoney <= 0)
+            {
                 upgradeBtn.Show();
+                restartBtn.Show();
+            }
 
             if (ochkoGame.playerMoney <= 0)
                 restartBtn.Show();
@@ -169,7 +174,7 @@ namespace OchkoDotNet
             takeBtn.Show();
 
             ochkoGame.bet = 0;                          // Обнуление ставки
-            bankBox.Text = "Банк - 0";     
+            bankBox.Text = "Банк - 0";
 
             botScoreBox.Text = "Очков  бота - 0";    // Обнуление очков
             scoreBox.Text = "Очков         - 0";
@@ -186,16 +191,24 @@ namespace OchkoDotNet
 
         private void begemot_Click(object sender, EventArgs e)
         {
+            Upgraded = true;
             BackgroundImage = background[count % 3];
             count++;
         }
 
         private void restartBtn_Click(object sender, EventArgs e)
         {
-            upgradeBtn.Hide();
             restartBtn.Hide();
-            ochkoGame.playerMoney = 300;
-            ochkoGame.botMoney = 3000;
+            if (Upgraded)
+            {
+                ochkoGame.playerMoney = 1000;
+                ochkoGame.botMoney = 10000;
+            }
+            else
+            {
+                ochkoGame.playerMoney = 500;
+                ochkoGame.botMoney = 3000;
+            }
 
             balanceBox.Text = "Ваш баланс  - " + Convert.ToString(ochkoGame.playerMoney);
             botBalanceBox.Text = "Баланс бота - " + Convert.ToString(ochkoGame.botMoney);

@@ -10,7 +10,7 @@ namespace OchkoDotNet
     {
         public int playerScore, botScore;
 
-        public int playerMoney = 300, botMoney = 3000;
+        public int playerMoney = 500, botMoney = 3000;
 
         public int bet;
 
@@ -94,6 +94,7 @@ namespace OchkoDotNet
                     if (playerCards[i].Rank == 11)
                     {
                         playerScore -= 10;
+                        break;
                     }
                 }
                 if (playerCards[0].Rank == 11 && playerCards[1].Rank == 11)     // В случае, если первые 2 карты - тузы, игрок выигрывает
@@ -115,7 +116,7 @@ namespace OchkoDotNet
         {
             bool botExit = false;
 
-            for (int i = 0; !botExit ; i++)
+            for (int i = 0; !botExit; i++)
             {
                 int index = botCards.Count + 8;
                 botCards.Add(deck[index]);
@@ -150,7 +151,7 @@ namespace OchkoDotNet
                     for (int j = 0; j < botCards.Count; j++)                     // В случае перебора делает стоимость туза равной одному очку
                     {
                         if (botCards[j].Rank == 11)
-                        { 
+                        {
                             botScore -= 10;
                             botCards[j].Rank = 1;
                             botExit = false;
@@ -176,7 +177,7 @@ namespace OchkoDotNet
 
         public void Result()
         {
-             if (playerCards[0].Rank == 11 && playerCards[1].Rank == 11)
+            if (playerCards[0].Rank == 11 && playerCards[1].Rank == 11)
             {
                 MessageBox.Show(
       "У вас 2 туза!\n" +
@@ -202,7 +203,7 @@ namespace OchkoDotNet
 
                 win = 0;
             }
-           else if (playerScore == botScore)
+            else if (playerScore == botScore)
             {
                 MessageBox.Show(
      "У вас ничья!\n",
@@ -252,19 +253,6 @@ namespace OchkoDotNet
      MessageBoxOptions.RightAlign);
 
                 win = 2;
-            }
-            else if (playerScore == 21 && botScore == 21)
-            {
-                MessageBox.Show(
-     "У вас обоих очко!\n" +
-     "Ничья!",
-     "Сообщение",
-     MessageBoxButtons.OK,
-     MessageBoxIcon.Information,
-     MessageBoxDefaultButton.Button1,
-     MessageBoxOptions.RightAlign);
-
-                win = 1;
             }
             else if (playerScore == 21)
             {
